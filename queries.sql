@@ -1,11 +1,34 @@
 -- write your queries here
 
+--First problem
+
 SELECT *
 FROM owners
     LEFT JOIN vehicles
         ON owners.id = vehicles.owner_id
 ORDER BY owners.id,
     vehicles.id;
+
+--Second problem
+
+SELECT first_name, COUNT(*) AS count
+FROM owners
+    INNER JOIN vehicles
+        ON owners.id = vehicles.owner_id
+GROUP BY first_name, owners.id
+ORDER BY first_name;
+
+--Third problem
+
+SELECT first_name,
+    (SUM(price) / COUNT(*))::int AS average_price,
+    COUNT(*) AS count
+FROM owners
+    INNER JOIN vehicles
+        ON owners.id = vehicles.owner_id
+GROUP BY first_name, owners.id
+HAVING COUNT(*) > 1 AND SUM(price) / COUNT(*) > 10000
+ORDER BY first_name DESC;
 
 
 
